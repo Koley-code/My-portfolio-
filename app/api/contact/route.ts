@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     const { data, error } = await resend.emails.send({
       from: fromEmail,
       to: toEmail,
-      reply_to: email,
+      replyTo: email,
       subject: `[Portfolio Contact] ${subject}`,
       html: `
         <div style="font-family: system-ui, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px;">
