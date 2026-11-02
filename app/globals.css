@@ -6736,12 +6736,10 @@
    ACCESSIBILITY: VISIBLE KEYBOARD FOCUS
 ========================================= */
 
+/* Visible keyboard focus for interactive elements */
 :where(
   a,
   button,
-  input,
-  textarea,
-  select,
   summary,
   [tabindex]:not([tabindex="-1"])
 ):focus-visible {
@@ -6749,9 +6747,10 @@
   outline-offset: 4px;
 }
 
-/* Clear focus indication for form controls */
+/* Softer focus indication for form controls */
 :where(input, textarea, select):focus-visible {
-  border-color: #686868;
+  outline: 1px solid rgba(14, 165, 233, 0.35);
+  outline-offset: 1px;
 }
 
 /* =========================================
