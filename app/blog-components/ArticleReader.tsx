@@ -26,6 +26,34 @@ export default function ArticleReader({
     );
     const [progress, setProgress] = useState(0);
     const [tocOpen, setTocOpen] = useState(false);
+    const [shareStatus, setShareStatus] = useState('');
+
+    const handleShare = async () => {
+        const url = window.location.href;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: post.title,
+                    text: post.excerpt,
+                    url,
+                });
+                return;
+            } catch (error) {
+                // Ignore cancellation of the native share menu.
+                if (error instanceof Error && error.name === 'AbortError') {
+                    return;
+                }
+            }
+        }
+
+        try {
+            await navigator.clipboard.writeText(url);
+            setShareStatus('Link copied!');
+        } catch {
+            setShareStatus('Unable to copy link. Please copy the URL manually.');
+        }
+    };
 
     useEffect(() => {
         const updateProgress = () => {
@@ -116,6 +144,20 @@ export default function ArticleReader({
                 <h1>{post.title}</h1>
 
                 <p className="article-deck">{post.excerpt}</p>
+                <div className="article-share-row">
+                    <button
+                        type="button"
+                        className="article-share-button"
+                        onClick={handleShare}
+                    >
+                        <span aria-hidden="true">↗</span>
+                        SHARE ARTICLE
+                    </button>
+
+                    <span className="article-share-status" role="status" aria-live="polite">
+                        {shareStatus}
+                    </span>
+                </div>
 
                 {post.image && (
                     <img
@@ -220,16 +262,37 @@ export default function ArticleReader({
 
                     <footer className="article-ending">
                         <span>THANKS FOR READING</span>
+
                         <p>
                             I'm still learning, building, and figuring things out.
                             More notes from that journey will be here.
                         </p>
-                        <Link href="/blog">← BACK TO ALL ARTICLES</Link>
+
+                        <div className="article-ending-actions">
+                            <Link href="/blog">← BACK TO ALL ARTICLES</Link>
+
+                            <div className="article-share-row">
+                                <button
+                                    type="button"
+                                    className="article-share-button"
+                                    onClick={handleShare}
+                                >
+                                    <span aria-hidden="true">↗</span>
+                                    SHARE ARTICLE
+                                </button>
+
+                                <span
+                                    className="article-share-status"
+                                    role="status"
+                                    aria-live="polite"
+                                >
+                                    {shareStatus}
+                                </span>
+                            </div>
+                        </div>
                     </footer>
                 </article>
             </div>
-
-
             <nav
                 className="article-pagination"
                 aria-label="Navigate between articles"
@@ -238,13 +301,31 @@ export default function ArticleReader({
                     <Link
                         href={`/blog/${previousPost.slug}`}
                         className="article-pagination-card article-pagination-previous"
+                        aria-label={`Read previous article: ${previousPost.title}`}
                     >
-                        <span className="article-pagination-label">
-                            <span aria-hidden="true">←</span>
-                            PREVIOUS ARTICLE
-                        </span>
+                        <div className="article-pagination-content">
+                            <span className="article-pagination-label">
+                                <span aria-hidden="true">←</span>
+                                PREVIOUS ARTICLE
+                            </span>
 
-                        <h3>{previousPost.title}</h3>
+                            <h3>{previousPost.title}</h3>
+                        </div>
+
+                        <div className="article-pagination-image">
+                            {previousPost.image && (
+                                <img
+                                    src={previousPost.image}
+                                    alt={`Cover image for ${previousPost.title}`}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            )}
+                        </div>
+
+                        <span className="article-pagination-arrow" aria-hidden="true">
+                            ↗
+                        </span>
                     </Link>
                 )}
 
@@ -252,13 +333,31 @@ export default function ArticleReader({
                     <Link
                         href={`/blog/${nextPost.slug}`}
                         className="article-pagination-card article-pagination-next"
+                        aria-label={`Read next article: ${nextPost.title}`}
                     >
-                        <span className="article-pagination-label">
-                            NEXT ARTICLE
-                            <span aria-hidden="true">→</span>
-                        </span>
+                        <div className="article-pagination-content">
+                            <span className="article-pagination-label">
+                                NEXT ARTICLE
+                                <span aria-hidden="true">→</span>
+                            </span>
 
-                        <h3>{nextPost.title}</h3>
+                            <h3>{nextPost.title}</h3>
+                        </div>
+
+                        <div className="article-pagination-image">
+                            {nextPost.image && (
+                                <img
+                                    src={nextPost.image}
+                                    alt={`Cover image for ${nextPost.title}`}
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            )}
+                        </div>
+
+                        <span className="article-pagination-arrow" aria-hidden="true">
+                            ↗
+                        </span>
                     </Link>
                 )}
             </nav>
@@ -275,10 +374,53 @@ export default function ArticleReader({
                             href={`/blog/${related.slug}`}
                             key={related.slug}
                             className="article-related-card"
+                            aria-label={`Read article: ${related.title}`}
                         >
-                            <span>{related.category} · {related.readTime}</span>
-                            <h3>{related.title}</h3>
-                            <span className="article-related-arrow">READ ARTICLE ↗</span>
+                            <div className="article-related-image">
+                                {related.image ? (
+                                    <img
+                                        src={related.image}
+                                        alt={`Cover image for ${related.title}`}
+                                        loading="lazy"
+                                        decoding="async"
+                                    />
+                                ) : (
+                                    <div
+                                        className="article-related-placeholder"
+                                        aria-hidden="true"
+                                    >
+                                        <span>{related.number}</span>
+                                        <span>SWARNENDU / JOURNAL</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className="article-related-content">
+                                <time dateTime={related.publishedAt}>
+                                    {related.date}
+                                </time>
+
+                                <h3>{related.title}</h3>
+
+                                <div className="article-related-meta">
+                                    <span className="article-related-author">
+                                        Swarnendu Koley
+                                    </span>
+
+                                    <span className="article-related-read-time">
+                                        <svg
+                                            viewBox="0 0 16 16"
+                                            aria-hidden="true"
+                                            focusable="false"
+                                        >
+                                            <circle cx="8" cy="8" r="6.25" />
+                                            <path d="M8 4.5V8l2.3 1.4" />
+                                        </svg>
+
+                                        {related.readTime}
+                                    </span>
+                                </div>
+                            </div>
                         </Link>
                     ))}
                 </div>
