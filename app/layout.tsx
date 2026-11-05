@@ -15,6 +15,9 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  verification: {
+    google: 'RsKBuysajedYi8lAl6wxsFxSLiZ1NmWJtL0yvbDwmHU',
+  },
   title: {
     default: 'Swarnendu Koley | Developer Blog',
     template: '%s | Swarnendu Koley',
