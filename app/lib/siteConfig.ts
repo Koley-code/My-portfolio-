@@ -123,7 +123,7 @@ export const siteConfig: SiteConfig = {
       image: "/projects/one.webp",
       technologies: ["HTML", "CSS", "JavaScript", "React", "TypeScript"],
       github: "https://github.com/Koley-code",
-      live: "https://your-portfolio-url.vercel.app",
+      live: "https://my-portfolio-amber-five-47.vercel.app",
       year: "2026",
       status: "Live",
       featured: true,
