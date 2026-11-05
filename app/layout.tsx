@@ -15,30 +15,41 @@ const siteUrl =
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+
   verification: {
     google: 'RsKBuysajedYi8lAl6wxsFxSLiZ1NmWJtL0yvbDwmHU',
   },
+
   title: {
-    default: 'Swarnendu Koley | Developer Blog',
+    default: 'Swarnendu Koley | Creative Developer & 3D Designer',
     template: '%s | Swarnendu Koley',
   },
+
   description:
-    'My developer journal about building projects, learning computer science, solving problems, and sharing what I discover along the way.',
-  applicationName: 'Swarnendu Koley Blog',
+    'Portfolio of Swarnendu Koley, a creative developer and 3D designer building interactive web experiences, responsive interfaces, and immersive digital projects.',
+
+  applicationName: 'Swarnendu Koley Portfolio',
+
+  alternates: {
+    canonical: '/',
+  },
+
   openGraph: {
     type: 'website',
-    siteName: 'Swarnendu Koley Blog',
-    title: 'Swarnendu Koley | Developer Blog',
+    siteName: 'Swarnendu Koley',
+    title: 'Swarnendu Koley | Creative Developer & 3D Designer',
     description:
-      'Projects, coding lessons, experiments, and notes from my developer journey.',
-    url: '/blog',
+      'Explore the portfolio of Swarnendu Koley, featuring interactive web experiences, creative development, projects, and 3D design.',
+    url: '/',
   },
+
   twitter: {
     card: 'summary_large_image',
-    title: 'Swarnendu Koley | Developer Blog',
+    title: 'Swarnendu Koley | Creative Developer & 3D Designer',
     description:
-      'Projects, coding lessons, experiments, and notes from my developer journey.',
+      'Interactive web experiences, creative development, projects, and 3D design by Swarnendu Koley.',
   },
+
   robots: {
     index: true,
     follow: true,

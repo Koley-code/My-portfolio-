@@ -2,6 +2,41 @@ import BlogNavbar from '../blog-components/BlogNavbar';
 import FeaturedPost from '../blog-components/FeaturedPost';
 import LatestArticles from '../blog-components/LatestArticles';
 import { featuredPost, latestPosts } from '../lib/blogData';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Developer Blog',
+
+  description:
+    'Read Swarnendu Koley’s developer journal about building projects, learning computer science, frontend development, solving problems, and sharing practical lessons.',
+
+  alternates: {
+    canonical: '/blog',
+  },
+
+  openGraph: {
+    type: 'website',
+    siteName: 'Swarnendu Koley',
+    title: 'Developer Blog | Swarnendu Koley',
+    description:
+      'Projects, coding lessons, experiments, and practical notes from Swarnendu Koley’s developer journey.',
+    url: '/blog',
+    images: [
+      {
+        url: featuredPost.image ?? '/images/profile.webp',
+        alt: featuredPost.title,
+      },
+    ],
+  },
+
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Developer Blog | Swarnendu Koley',
+    description:
+      'Projects, coding lessons, experiments, and practical notes from my developer journey.',
+    images: [featuredPost.image ?? '/images/profile.webp'],
+  },
+};
 
 export default function BlogPage() {
   return (
